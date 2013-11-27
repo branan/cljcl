@@ -1,6 +1,30 @@
 (ns cljcl.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def infix-forms
+  #{'+
+    '-
+    '*
+    '/
+    '==
+    '!=
+    '>=
+    '<=
+    '<
+    '>})
+
+(def special-forms
+  #{'assoc
+    'defn
+    'get
+    'let})
+
+(def variable-forms
+  #{'float
+    'int})
+
+(defn form-type [form]
+  (cond
+   (contains? special-forms (first form)) (first form)
+   (contains? infix-forms (first form)) 'infix
+   (contains? variable-forms (first form)) 'variable
+   :default 'function))
